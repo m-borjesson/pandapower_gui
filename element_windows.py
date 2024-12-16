@@ -5,23 +5,14 @@ Created on Sat Jun 03 17:57:27 2017
 @author: thurner
 """
 
-try:
-    from PyQt5 import uic
-    from PyQt5 import *
-    from PyQt5.QtGui import *
-    from PyQt5.QtWidgets import *
-    from PyQt5.QtCore import *
-    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-    _QT_VERSION = "5"
-except ImportError:
-    from PyQt4 import uic
-    from PyQt4 import *
-    from PyQt4.QtCore import *
-    from PyQt4.QtGui import *
-    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-    _QT_VERSION = "4"
+from PyQt6 import uic
+from PyQt6 import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+_QT_VERSION = "6"
 
 import pandapower as pp
 

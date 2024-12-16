@@ -19,25 +19,14 @@ import pandapower.networks as pnw
 from element_windows import *
 
 #qt
-try:
-    from PyQt5 import uic
-    from PyQt5 import *
-    from PyQt5.QtGui import *
-    from PyQt5.QtWidgets import *
-    from PyQt5.QtCore import *
-    from PyQt5.QtWebKitWidgets import QWebView
-    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-    QT_VERSION = "5"
-except ImportError:
-    from PyQt4 import uic
-    from PyQt4 import *
-    from PyQt4.QtCore import *
-    from PyQt4.QtGui import *
-    from PyQt4.QtWebKit import QWebView
-    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-    from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-    QT_VERSION = "4"
+from PyQt6 import uic
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtWebEngineWidgets import QWebEngineView
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
+QT_VERSION = "6"
 
 import pandapower.plotting as plot
 import matplotlib.pyplot as plt
@@ -416,7 +405,7 @@ class mainWindow(QMainWindow):
             self.drawCollections()
 
     def updateExtGridCollections(self, redraw=False):
-        eg1, eg2 = plot.create_ext_grid_symbol_collection(self.net,
+        eg1, eg2 = plot.create_ext_grid_collection(self.net,
                                                     size=self.scale*0.05,
                 zorder=2, picker=True,
                 infofunc=lambda x: ("ext_grid", x))
@@ -427,14 +416,14 @@ class mainWindow(QMainWindow):
 
     def updateLineCollection(self, redraw=False):
         lc = plot.create_line_collection(self.net, zorder=1, linewidths=1,
-                 picker=True, use_line_geodata=False, color="green",
+                 picker=True, color="green",
                  infofunc=lambda x: ("line", x))
         self.collections["line"] = lc
         if redraw:
             self.drawCollections()
 
     def updateTrafoCollections(self, redraw=False):
-        t1, t2 = plot.create_trafo_symbol_collection(self.net, picker=True,
+        t1, t2 = plot.create_trafo_collection(self.net, picker=True,
                          size=self.scale*0.02, infofunc=lambda x: ("trafo", x))
         self.collections["trafo1"] = t1
         self.collections["trafo2"] = t2
@@ -442,7 +431,7 @@ class mainWindow(QMainWindow):
             self.drawCollections()
 
     def updateLoadCollections(self, redraw=False):
-        l1, l2 = plot.create_load_symbol_collection(self.net, size=self.scale*0.02,
+        l1, l2 = plot.create_load_collection(self.net, size=self.scale*0.02,
                                                     picker=True,
                                                     infofunc=lambda x: ("load", x))
         self.collections["load1"] = l1
@@ -631,7 +620,7 @@ def createSampleNetwork():
 
     #create bus elements
     pp.create_ext_grid(net, bus=b1, vm_pu=1.02, name="Grid Connection")
-    pp.create_load(net, bus=b3, p_kw=100, q_kvar=50, name="Load")
+    pp.create_load(net, bus=b3, p_mw=0.1, q_mvar=0.050, name="Load")
 
     #create branch elements
     tid = pp.create_transformer(net, hv_bus=b1, lv_bus=b2, std_type="0.4 MVA 20/0.4 kV",
