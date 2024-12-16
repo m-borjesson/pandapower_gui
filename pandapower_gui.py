@@ -175,7 +175,7 @@ class mainWindow(QMainWindow):
         self.load_network(net, name)
 
     def show_docs(self):
-        self.docs = QWebView()
+        self.docs = QWebEngineView()
         self.docs.load(QUrl("https://pandapower.readthedocs.io"))
         self.docs.setWindowTitle("pandapower Documentation")
         self.docs.show()
@@ -423,12 +423,14 @@ class mainWindow(QMainWindow):
             self.drawCollections()
 
     def updateTrafoCollections(self, redraw=False):
-        t1, t2 = plot.create_trafo_collection(self.net, picker=True,
-                         size=self.scale*0.02, infofunc=lambda x: ("trafo", x))
+        t1, t2 = plot.create_trafo_collection(self.net, picker=True, size=self.scale*0.02, infofunc=lambda x: ("trafo", x))
+        
         self.collections["trafo1"] = t1
         self.collections["trafo2"] = t2
         if redraw:
             self.drawCollections()
+
+            plot.create_trafo_collection()
 
     def updateLoadCollections(self, redraw=False):
         l1, l2 = plot.create_load_collection(self.net, size=self.scale*0.02,
